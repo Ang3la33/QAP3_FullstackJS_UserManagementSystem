@@ -63,6 +63,9 @@ app.post("/login", async (request, response) => {
 
     // Save user in session
     request.session.user = { id: user.id, username: user.username, role: user.role };
+
+    // Redirect to landing page
+    response.redirect("/landing");
 });
 
 // GET /signup - Render signup form
@@ -92,12 +95,9 @@ app.get("/landing", (request, response) => {
     if (!user) {
         return response.redirect('/');
     }
-    
-    // If user is logged in direct them to landing page
-    else {
-        return response.redirect('/landing');
-    }
 
+    // Render landing page with role-based content restricting data exposure to admin only
+    response.render('landing', { user, users: user.role === 'admin' ? USERS : null });
 });
 
 

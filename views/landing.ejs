@@ -1,6 +1,6 @@
 <%- include('partials/header', { title: "Home" }) %>
 
-    // If admin display admin dashboard
+    <%-- If admin display admin dashboard --%>
     <% if (user.role === 'admin') { %> 
         <h1>Admin Dashboard</h1>
         <h2>Welcome, <%= user.username %>!</h2>
@@ -11,7 +11,7 @@
             <% }) %>
         </ul>
 
-    // If regular user, display user dashboard
+    <%-- If regular user, display user dashboard --%>
     <% } else { %> 
         <h1>User Dashboard</h1>
         <h2>Welcome, <%= user.username %>!</h2>
