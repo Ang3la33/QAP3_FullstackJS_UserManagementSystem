@@ -86,6 +86,18 @@ app.get("/", (request, response) => {
 // GET /landing - Shows a welcome page for users, shows the names of all users if an admin
 app.get("/landing", (request, response) => {
     
+    const user = request.session.user;
+
+    // Redirect user to home if not logged in
+    if (!user) {
+        return response.redirect('/');
+    }
+    
+    // If user is logged in direct them to landing page
+    else {
+        return response.redirect('/landing');
+    }
+
 });
 
 
