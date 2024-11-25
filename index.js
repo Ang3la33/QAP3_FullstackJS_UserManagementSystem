@@ -45,8 +45,32 @@ app.get("/login", (request, response) => {
 });
 
 // POST /login - Allows a user to login
-app.post("/login", (request, response) => {
+app.post("/login", async (request, response) => {
 
+    const { email, password } = request.body;
+
+    // Find the user by their email 
+    const user = USERS.find(user => user.email === email);
+    if (!user) {
+        return response.render('login', { error: 'Invalid credentials.' });
+    }
+
+    // Compare the hashed password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+        return response.render('login', { error: 'Invalid credentials.' });
+    }
+
+    // Save user in session
+    request.session.user = { id: user.id, username: user.username, role: user.role };
+
+    // Redirect user based on role
+    if (user.role === 'admin') {
+        response.redirect('/adminDashboard');
+    }
+    else {
+        response.redirect('/userDashboard');
+    }
 });
 
 // GET /signup - Render signup form
@@ -71,6 +95,7 @@ app.get("/", (request, response) => {
 app.get("/landing", (request, response) => {
     
 });
+
 
 // Start server
 app.listen(PORT, () => {
