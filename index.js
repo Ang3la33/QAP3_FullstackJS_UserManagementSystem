@@ -63,14 +63,6 @@ app.post("/login", async (request, response) => {
 
     // Save user in session
     request.session.user = { id: user.id, username: user.username, role: user.role };
-
-    // Redirect user based on role
-    if (user.role === 'admin') {
-        response.redirect('/adminDashboard');
-    }
-    else {
-        response.redirect('/userDashboard');
-    }
 });
 
 // GET /signup - Render signup form
