@@ -74,8 +74,42 @@ app.get("/signup", (request, response) => {
 });
 
 // POST /signup - Allows a user to signup
-app.post("/signup", (request, response) => {
-    
+app.post("/signup", async (request, response) => {
+
+    const { username, email, password } = request.body;
+
+    // Validate user input
+    if (!username || !email || !password) {
+        return response.render('signup', { error: 'All fields are required.'});
+    }
+
+    // Check if email is already registered
+    const existingEmail = USERS.find(user => user.email === email);
+    if (existingEmail) {
+        return response.render('signup', { error: "Email is already registered."});
+    }
+
+    // Check if username already exists
+    const existingUsername = USERS.find(user => user.username === username);
+    if (existingUsername) {
+        return response.render('signup', { error: 'Username already exists.'})
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
+    // Create the new user and add them to USERS array
+    const newUser = {
+        id: USERS.length + 1,
+        username,
+        email,
+        password: hashedPassword,
+        role: 'user',
+    };
+    USERS.push(newUser);
+
+    // Redirect user to login page
+    response.redirect('/login');
 });
 
 // GET / - Render index page or redirect to landing if logged in
