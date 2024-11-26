@@ -1,24 +1,21 @@
 <%- include('partials/header', { title: "Home" }) %>
 
-    <%-- If admin display admin dashboard --%>
     <% if (user.role === 'admin') { %> 
         <h1>Admin Dashboard</h1>
-        <h2>Welcome, <%= user.username %>!</h2>
-        <p>All Registered Users:</p>
+        <h2 class="yellow">Welcome, <%= user.username %>!</h2>
+        <h2>All Registered Users:<h2>
         <ul>
             <% users.forEach(u => { %>
                 <li>User: <%= u.username %> (<%= u.email %>) - Role: <%= u.role %> </li>
             <% }) %>
         </ul>
 
-    <%-- If regular user, display user dashboard --%>
     <% } else { %> 
         <h1>User Dashboard</h1>
-        <h2>Welcome, <%= user.username %>!</h2>
+        <h2 class="yellow">Welcome, <%= user.username %>!</h2>
     <% } %>
 
-    <%-- Allow user to log out of session --%>
-    <a href="/logout" class="button">Logout</a>
+    <a href="/logout" class="link">Logout</a>
 
 
 <%- include('partials/footer') %>

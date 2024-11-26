@@ -53,13 +53,13 @@ app.post("/login", async (request, response) => {
     // Find the user by their email 
     const user = USERS.find(user => user.email === email);
     if (!user) {
-        return response.render('login', { error: 'Invalid credentials.' });
+        return response.render('login', { error: 'Invalid credentials.', success: null });
     }
 
     // Compare the hashed password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-        return response.render('login', { error: 'Invalid credentials.' });
+        return response.render('login', { error: 'Invalid credentials.', success: null });
     }
 
     // Save user in session
@@ -128,7 +128,7 @@ app.get("/landing", (request, response) => {
 
     // Redirect user to home if not logged in
     if (!user) {
-        return response.redirect('/');
+        return response.redirect("/");
     }
 
     // Render landing page with role-based content restricting data exposure to admin only

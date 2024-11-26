@@ -95,3 +95,25 @@ body {
     font-size: 25px;
     padding: 10px;
 }
+
+.link {
+    display: flex;
+    justify-content: center;
+    border: 2px solid whitesmoke;
+    font-size: 16px;
+    background: #f6f6f6e1;
+    color:rgba(255, 0, 162, 0.508);
+    padding: 5px;
+    border-radius:6px;
+    margin-top: 100px;
+    cursor:pointer;
+}
+
+.link:hover {
+    background: #f6f6f6;
+    box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.yellow {
+    color: rgb(241, 241, 92);
+}
