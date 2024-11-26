@@ -41,7 +41,8 @@ const USERS = [
 
 // GET /login - Render login form
 app.get("/login", (request, response) => {
-    response.render("login");
+    const success = request.query.success ? "User successfully registered! Please log in." : null;
+    response.render("login", { error: null, success });
 });
 
 // POST /login - Allows a user to login
@@ -70,7 +71,7 @@ app.post("/login", async (request, response) => {
 
 // GET /signup - Render signup form
 app.get("/signup", (request, response) => {
-    response.render("signup");
+    response.render("signup", { error: null });
 });
 
 // POST /signup - Allows a user to signup
@@ -108,8 +109,8 @@ app.post("/signup", async (request, response) => {
     };
     USERS.push(newUser);
 
-    // Redirect user to login page
-    response.redirect('/login');
+    // Redirect user to login page with a success message
+    response.redirect('/login?success=1');
 });
 
 // GET / - Render index page or redirect to landing if logged in
@@ -132,6 +133,13 @@ app.get("/landing", (request, response) => {
 
     // Render landing page with role-based content restricting data exposure to admin only
     response.render('landing', { user, users: user.role === 'admin' ? USERS : null });
+});
+
+// GET /logout - Allows a user to log out by destroying session
+app.get("/logout", (request, response) => {
+    request.session.destroy(() => {
+        response.redirect("/");
+    });
 });
 
 
